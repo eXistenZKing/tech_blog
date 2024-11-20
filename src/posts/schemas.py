@@ -49,6 +49,12 @@ class PostCreate(BaseModel):
         return text
 
 
+class PostUpdate(PostCreate):
+  title: Optional[str]
+  text: Optional[str]
+  category: Optional[str]
+
+
 class Comment(BaseModel):
     id: int
     author: int
