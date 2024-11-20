@@ -36,5 +36,5 @@ class Comment(Base):
         Integer, ForeignKey("posts.id", ondelete="CASCADE")
     )
     user_name: Mapped[str] = mapped_column(
-        String, ForeignKey("users.name"), ondelete="CASCADE"
+        String, ForeignKey("users.username", ondelete="CASCADE")
     )

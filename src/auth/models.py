@@ -9,7 +9,7 @@ class UserRole(Base):
     __tablename__ = "roles"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    name: Mapped[str]
+    name: Mapped[str] = mapped_column(String, unique=True)
 
 
 class User(Base):
