@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .schemas import PostCreate
+from .schemas import PostCreate, CommentCreate
 from .models import Post, Category, Comment
 from src.auth.models import User, UserRole
 
@@ -39,7 +39,7 @@ def create_post(author_id: int, data: PostCreate, session: AsyncSession):
     return db_post
 
 
-def update_post(post: Post, data: PostCreate, session: AsyncSession):
+def update_post(post: Post, data: PostUpdate, session: AsyncSession):
     if data.category and not get_category(session,
                                           category_slug=data.category):
         raise CategoryDoesNotExist
@@ -70,37 +70,37 @@ def get_comment(comment_id: int, post: Post, session: AsyncSession):
     )
 
 
-# def get_comments_of_post(post: models.Post):
-#     return post.comments
+def get_comments_of_post(post: Post, session: AsyncSession):
+    return session.scalar(
+        select(Comment).where(Comment.post_id == post.id)
+    )
 
 
-# def create_comment(
-#     session: Session, data: schemas.CommentCreate, post: models.Post, author_id: int
-# ):
-#     comment = models.Comment(
-#         **data.model_dump(), post_id=post.id, author_id=author_id
-#     )
-#     session.add(comment)
-#     session.commit()
-#     session.refresh(comment)
-#     return comment
+def create_comment(
+    data: CommentCreate, post: Post, author_id: int, session: AsyncSession
+):
+    comment = models.Comment(
+        **data.model_dump(), post_id=post.id, author=author_id
+    )
+    session.add(comment)
+    session.commit()
+    session.refresh(comment)
+    return comment
 
 
-# def delete_comment(db: Session, comment: models.Comment):
-#     db.delete(comment)
-#     db.commit()
+def delete_comment(comment: Comment, session: AsyncSession):
+    session.delete(comment)
+    session.commit()
 
 
-# def update_comment(
-#     db: Session,
-#     comment: models.Comment,
-#     data: schemas.PostUpdate | schemas.PostCreate,
-# ):
-#     update_data = data.model_dump(exclude_unset=True)
-#     for field, value in update_data.items():
-#         setattr(comment, field, value)
+def update_comment(
+    comment: Comment, data: PostUpdate | PostCreate, session: AsyncSession
+):
+    update_data = data.model_dump(exclude_unset=True)
+    for field, value in update_data.items():
+        setattr(comment, field, value)
 
-#     db.add(comment)
-#     db.commit()
-#     db.refresh(comment)
-#     return comment
+    session.add(comment)
+    session.commit()
+    session.refresh(comment)
+    return comment
