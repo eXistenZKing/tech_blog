@@ -10,10 +10,10 @@ class Post(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column(String(256))
     text: Mapped[str] = mapped_column(Text)
-    category_name: Mapped[str] = mapped_column(
-        String, ForeignKey("categories.name")
+    category: Mapped[str] = mapped_column(
+        String, ForeignKey("categories.slug")
     )
-    user_id: Mapped[int] = mapped_column(
+    author: Mapped[int] = mapped_column(
         Integer, ForeignKey("users.id", ondelete="CASCADE")
     )
     is_published: Mapped[bool] = mapped_column(default=True)
@@ -35,6 +35,6 @@ class Comment(Base):
     post_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("posts.id", ondelete="CASCADE")
     )
-    user_name: Mapped[str] = mapped_column(
-        String, ForeignKey("users.username", ondelete="CASCADE")
+    author: Mapped[int] = mapped_column(
+        Integer, ForeignKey("users.id", ondelete="CASCADE")
     )

@@ -31,7 +31,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
 
         existing_user = await self.user_db.get_by_email(user_create.email)
         if existing_user is not None:
-            raise exceptions.UserAlreadyExists("EMAIL занят")
+            raise exceptions.UserAlreadyExists()
 
         user_dict = (
             user_create.create_update_dict()
