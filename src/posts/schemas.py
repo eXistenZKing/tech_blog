@@ -1,11 +1,18 @@
+from typing import Optional, Union
+
+from fastapi import Depends
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import (BaseModel,
                       Field, computed_field,
                       field_validator)
 from slugify import slugify
 
+from src.database import get_async_session
+from .exceptions import EmptyValueException
 
-class ErrorMessage(BaseModel):
-    detail: str
+
+MAX_LEN_COMM_MSG = "Макс. длина комментария 500 символов."
 
 
 class Category(BaseModel):
@@ -28,6 +35,24 @@ class PostGet(BaseModel):
     category: str
     author: int
 
+    # @computed_field
+    # async def comments(
+    #     self,
+    #     session: AsyncSession = Depends(get_async_session)
+    # ) -> dict[int, Union[list, None]]:
+    #     comments = await session.scalar(select(Comment)
+    #                                     .where(Comment.post_id == self.id))
+    #     # count = len(comments)
+    #     return {"count": count,
+    #             "comments": comments}
+
+
+class PostListGet(BaseModel):
+    id: int
+    text: str
+    category: str
+    author: int
+
 
 class PostCreate(BaseModel):
     title: str
@@ -38,21 +63,21 @@ class PostCreate(BaseModel):
     @classmethod
     def validate_title(cls, title: str):
         if len(title) == 0:
-            raise ValueError('Поле title не может быть пустым.')
+            raise EmptyValueException(detail="title")
         return title
 
     @field_validator('text', mode="before")
     @classmethod
     def validate_text(cls, text: str):
         if len(text) == 0:
-            raise ValueError('Поле text не может быть пустым.')
+            raise EmptyValueException(detail="text")
         return text
 
 
 class PostUpdate(PostCreate):
-  title: Optional[str]
-  text: Optional[str]
-  category: Optional[str]
+    title: Optional[str]
+    text: Optional[str]
+    category: Optional[str]
 
 
 class Comment(BaseModel):
@@ -65,5 +90,5 @@ class Comment(BaseModel):
 class CommentCreate(BaseModel):
     author: int
     text: str = Field(
-        max_length=500, description="Макс. длина комментария 500 символов.")
+        max_length=500, description=MAX_LEN_COMM_MSG)
     post_id: int
