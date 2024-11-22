@@ -91,7 +91,6 @@ class CategoryGet(BaseModel):
     id: int
     name: str
     slug: str
-    posts: list[PostListGet]
 
 
 class CategoryListGet(BaseModel):
