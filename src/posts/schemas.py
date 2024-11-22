@@ -31,6 +31,7 @@ class CategoryCreate(BaseModel):
 
 class PostGet(BaseModel):
     id: int
+    title: str
     text: str
     category: str
     author: int
@@ -49,6 +50,7 @@ class PostGet(BaseModel):
 
 class PostListGet(BaseModel):
     id: int
+    title: str
     text: str
     category: str
     author: int

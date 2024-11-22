@@ -7,8 +7,8 @@ from .schemas import PostCreate, PostUpdate, CommentCreate
 from .models import Post, Category, Comment
 
 
-def get_category(session: AsyncSession, category_slug):
-    return session.scalar(select(Category).filter_by(slug=category_slug))
+async def get_category(session: AsyncSession, category_slug):
+    return await session.scalar(select(Category).filter_by(slug=category_slug))
 
 
 async def get_list_post(session: AsyncSession):
@@ -17,7 +17,7 @@ async def get_list_post(session: AsyncSession):
 
 async def get_post_with_comments(session: AsyncSession, post_id):
     return await session.scalar(
-        select(Post).join(Comment).where(Post.id == Comment.post_id == post_id)
+        select(Post).outerjoin(Comment).where(Post.id == post_id)
     )
 
 
