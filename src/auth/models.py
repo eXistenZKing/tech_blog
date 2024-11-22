@@ -1,5 +1,9 @@
+"""
+Модели SQLAlchemy ORM для работы с польователями.
+"""
+
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable
-from sqlalchemy import Boolean, ForeignKey, Integer, String
+from sqlalchemy import ForeignKey, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.database import Base

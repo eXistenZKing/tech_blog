@@ -1,11 +1,13 @@
+"""
+Дополнительные утилиты для работы с маршрутизаторами и функциями СRUD.
+"""
+
 from fastapi import Depends
-from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from .crud import get_category, get_post_with_comments, get_comment
 from .exceptions import NotFoundException
 from src.database import get_async_session
-from src.auth.models import User
 
 
 async def get_post_util(

@@ -1,3 +1,8 @@
+"""
+Модели SQLAlchemy ORM для таблиц posts, categories, comments.
+"""
+
+
 from sqlalchemy import Integer, String, ForeignKey, Text
 from sqlalchemy.orm import Mapped, mapped_column
 

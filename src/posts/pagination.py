@@ -1,3 +1,7 @@
+"""
+Настройки пагинации.
+"""
+
 from fastapi import Query
 from fastapi_pagination import Page as Basepage
 from fastapi_pagination.customization import UseParamsFields, CustomizedPage

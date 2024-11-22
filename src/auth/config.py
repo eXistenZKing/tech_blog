@@ -1,3 +1,7 @@
+"""
+Конфигурация FastAPI Users.
+"""
+
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import (AuthenticationBackend,
                                           BearerTransport,
@@ -12,6 +16,7 @@ bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
 
 def get_jwt_strategy() -> JWTStrategy:
+    """JWT токен."""
     return JWTStrategy(secret=AUTH_SECRET, lifetime_seconds=3600)
 
 

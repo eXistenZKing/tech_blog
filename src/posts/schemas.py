@@ -1,3 +1,7 @@
+"""
+Схемы (модели pydantic) для работы с Post, Categories, Comments.
+"""
+
 from typing import Optional
 
 from pydantic import (BaseModel,

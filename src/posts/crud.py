@@ -1,3 +1,7 @@
+"""
+Операции CRUD для моделей Post, Category, Comment.
+"""
+
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession

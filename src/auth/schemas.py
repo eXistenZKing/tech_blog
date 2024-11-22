@@ -1,3 +1,7 @@
+"""
+Схемы (модели pydantic) для работы с пользователями.
+"""
+
 from fastapi_users import schemas
 from pydantic import EmailStr, Field
 

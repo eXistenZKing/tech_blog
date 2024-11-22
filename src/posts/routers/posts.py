@@ -1,3 +1,7 @@
+"""
+Маршрутизаторы для раздела Posts.
+"""
+
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Response, status
@@ -5,9 +9,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..crud import (get_list_post,
                     post_create, post_update, post_delete,
-                    get_comments_of_post, get_comment,
-                    comment_create, comment_delete, comment_update)
-from ..exceptions import FobidenToPostException, NotFoundException
+                    comment_create, comment_delete)
+from ..exceptions import FobidenToPostException
 from ..schemas import (CommentGet, PostGet, PostListGet,
                        PostCreate, PostUpdate, CommentCreate)
 from ..models import Post, Comment

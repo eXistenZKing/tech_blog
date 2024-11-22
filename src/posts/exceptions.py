@@ -1,5 +1,8 @@
+"""
+HTTP исключения.
+"""
+
 from typing import Any, Dict, Union
-from typing_extensions import Annotated, Doc
 
 from fastapi import HTTPException, status
 

@@ -1,17 +1,19 @@
+"""
+Маршрутизаторы для раздела Categories.
+"""
+
 from typing import Annotated
 
 from fastapi import Depends, APIRouter
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..models import Category
-from ..utils import get_category_util
-from src.database import get_async_session
-from src.posts.exceptions import NotEnoughRightsException
-from src.posts.pagination import Page
-from src.posts.crud import get_list_categories, category_create
-from src.posts.schemas import CategoryCreate, CategoryListGet, CategoryGet
+from ..exceptions import NotEnoughRightsException
+from ..pagination import Page
+from ..crud import get_list_categories, category_create
+from ..schemas import CategoryCreate, CategoryListGet, CategoryGet
 from src.auth.schemas import UserRead
 from src.auth.config import current_active_user
+from src.database import get_async_session
 
 
 router = APIRouter(

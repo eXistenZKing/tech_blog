@@ -1,9 +1,12 @@
+"""
+Главный файл с приложением FastAPI.
+"""
+
 from fastapi import FastAPI
 from fastapi_pagination import add_pagination
 
 from src.auth.config import auth_backend, fastapi_users
 from src.auth.schemas import UserCreate, UserRead, UserUpdate
-# from src.posts.routers.admin import router as admin_router
 from src.posts.routers.posts import router as posts_router
 from src.posts.routers.categories import router as categories_router
 
@@ -32,6 +35,5 @@ app.include_router(
     tags=["Users"],
 )
 
-# app.include_router(admin_router)
 app.include_router(posts_router)
 app.include_router(categories_router)

@@ -1,4 +1,7 @@
-# from collections.abc import AsyncGenerator
+"""
+Настройки для подключения к базе даных.
+"""
+
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.ext.asyncio import (AsyncSession,
                                     async_sessionmaker,
