@@ -27,7 +27,7 @@ class FobidenToPostException(HTTPException):
 
     def __init__(self,
                  status_code: int = status.HTTP_403_FORBIDDEN,
-                 detail: Any = None,
+                 detail: Any = MESSAGE,
                  headers: Union[Dict[str, str], None] = None) -> None:
         super().__init__(status_code, detail, headers)
 
@@ -41,3 +41,13 @@ class EmptyValueException(HTTPException):
         super().__init__(status_code, detail, headers)
         self.detail = "The field '{field}' value cannot be empty.".format(
             field=detail)
+
+
+class NotEnoughRightsException(HTTPException):
+    MESSAGE = "You do not have sufficient rights to perform this operation."
+
+    def __init__(self,
+                 status_code: int = status.HTTP_403_FORBIDDEN,
+                 detail: Any = MESSAGE,
+                 headers: Union[Dict[str, str], None] = None) -> None:
+        super().__init__(status_code, detail, headers)

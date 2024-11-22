@@ -1,32 +1,14 @@
-from typing import Optional, Union
+from typing import Optional
 
-from fastapi import Depends
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession
 from pydantic import (BaseModel,
                       Field, computed_field,
                       field_validator)
 from slugify import slugify
 
-from src.database import get_async_session
 from .exceptions import EmptyValueException
 
 
 MAX_LEN_COMM_MSG = "Макс. длина комментария 500 символов."
-
-
-class Category(BaseModel):
-    id: int
-    name: str
-    slug: str
-
-
-class CategoryCreate(BaseModel):
-    name: str
-
-    @computed_field
-    def slug(self) -> str:
-        return slugify(self.name)
 
 
 class PostGet(BaseModel):
@@ -82,7 +64,7 @@ class PostUpdate(PostCreate):
     category: Optional[str]
 
 
-class Comment(BaseModel):
+class CommentGet(BaseModel):
     id: int
     author: int
     text: str
@@ -90,7 +72,33 @@ class Comment(BaseModel):
 
 
 class CommentCreate(BaseModel):
-    author: int
     text: str = Field(
         max_length=500, description=MAX_LEN_COMM_MSG)
-    post_id: int
+
+    @field_validator('text', mode="before")
+    @classmethod
+    def validate_text(cls, text: str):
+        if len(text) == 0:
+            raise EmptyValueException(detail="text")
+        return text
+
+
+class CategoryGet(BaseModel):
+    id: int
+    name: str
+    slug: str
+    posts: list[PostListGet]
+
+
+class CategoryListGet(BaseModel):
+    id: int
+    name: str
+    slug: str
+
+
+class CategoryCreate(BaseModel):
+    name: str
+
+    @computed_field
+    def slug(self) -> str:
+        return slugify(self.name)
