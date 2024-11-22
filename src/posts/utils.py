@@ -40,8 +40,8 @@ async def get_category_util(
     return category
 
 
-async def get_user(
-        id: int, session: AsyncSession = Depends(get_async_session)
-):
-    user = await session.scalar(select(User).filter_by(id=id))
-    return user
+# async def get_user(
+#         id: int, session: AsyncSession = Depends(get_async_session)
+# ):
+#     user = await session.scalar(select(User).filter_by(id=id))
+#     return user
